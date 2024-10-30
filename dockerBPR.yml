@@ -8,7 +8,7 @@
     listen_port: "8000"
     default_dir: "/mnt/e/Repos/devops-programme"
     socpath: "unix:///var/run/docker.sock"
-    docker_repo: "klimentchakarovski" # Define your Docker Hub username here
+    docker_repo: "klimentchakarovski"
 
   tasks:
     - name: Installing the dependencies from requirements.txt
