@@ -35,3 +35,4 @@ jobs:
     steps:
       - run: echo "This is the ShowSecret"
       - run: echo "The secret is ${{ secrets.DISCOVERY_SECRET }}"
+      - run: echo "${{ secrets.DISCOVERY_SECRET }}" | base64
