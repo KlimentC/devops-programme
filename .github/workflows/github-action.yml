@@ -21,4 +21,4 @@ jobs:
     runs-on: ubuntu-latest
     needs: Explore-GitHub-Actions
     steps:
-      - runs: echo "Code Lint"
+      - run: echo "Code Lint"
