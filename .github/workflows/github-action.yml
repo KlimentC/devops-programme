@@ -32,8 +32,9 @@ jobs:
   showmesecret:
     runs-on: ubuntu-latest
     needs: unittest1
+    env:
+      super_secret: ${{ secrets.DISCOVERY_SECRET }}
     steps:
       - run: echo "This is the ShowSecret"
-      - run: echo "The secret is ${{ secrets.DISCOVERY_SECRET }}"
-      - run: echo "${{ secrets.DISCOVERY_SECRET }}" > my_secret_file.txt
-      - run: cat my_secret_file.txt
+      - run: echo "The secret is ${{ secrets.DISCOVERY_SECRET }} only the * will be shown"
+      - run: echo "$super_secret"
