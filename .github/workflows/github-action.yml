@@ -28,3 +28,10 @@ jobs:
     needs: lint
     steps:
       - run: echo "This is the unitTest"
+
+  showmesecret:
+    runs-on: ubuntu-latest
+    needs: unittest1
+    steps:
+      - run: echo "This is the ShowSecret"
+      - run: echo "The secret is ${{ secrets.DISCOVERY_SECRET }}"
