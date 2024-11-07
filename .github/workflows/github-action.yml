@@ -6,7 +6,7 @@ on:
       - main #Trigger on push to the 'main' branch
   pull_request:
     branches:
-      - feature_branch #Trigger on pull requests that target the 'feature_branch' branch
+      - main #Trigger on pull requests that target the 'main' branch
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
