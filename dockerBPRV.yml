@@ -1,5 +1,5 @@
 ---
-- name: This is the Ansible Build for the Docker with Ansible Vault
+- name: This is the Ansible Build for the Docker using the secrets from Ansible Vault
   hosts: localhost
   gather_facts: no
   vars:
