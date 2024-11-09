@@ -9,6 +9,7 @@ on:
       - main #Trigger on pull requests that target the 'main' branch
     paths:
       - "*.txt"
+
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -26,19 +27,18 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
   lint:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Lint job please be patient
-      uses: actions/checkout@v4
-    - name: Setup python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.11"
-
-    - name: flake8 Lint
-      uses: py-actions/flake8@v2
-      with:
-        args: app/app.py
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lint job please be patient
+        uses: actions/checkout@v4
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: flake8 Lint
+        uses: py-actions/flake8@v2
+        with:
+          args: app/app.py
 
   unittest1:
     runs-on: ubuntu-latest
