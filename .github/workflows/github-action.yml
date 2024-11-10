@@ -73,11 +73,11 @@ jobs:
         uses: actions/setup-python@v3
       - name: Install dependencies
         run: |
-          cd app |
+          cd app &&
           pip3 install -r requirements.txt
       - name: Snyk Test
         uses: snyk/actions/python@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          working-directory: app
+          args: test
