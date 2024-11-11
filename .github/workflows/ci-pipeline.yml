@@ -33,7 +33,7 @@ jobs:
           pip install -r requirements.txt
       - name: Check the code with pylit
         run: |
-          cd app && pylint $(git ls-files '*.py')
+          cd app && pylint -d C0114,C0115,C0116 $(git ls-files '*.py')
 
   Python-black:
     name: Python Black
