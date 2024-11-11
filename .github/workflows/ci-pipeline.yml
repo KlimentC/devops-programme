@@ -43,4 +43,5 @@ jobs:
       - name: Python Black
         uses: psf/black@stable
         with:
-          path: "app/"
+          options: "--check --verbose"
+          src: "./app"
