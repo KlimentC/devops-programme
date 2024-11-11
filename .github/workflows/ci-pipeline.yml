@@ -97,5 +97,10 @@ jobs:
           fetch-depth: 1
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.1.0
+        with:
+          projectBaseDir: ./app
+          args: >
+            -Dsonar.organization=KlimentC
+            -Dsonar.projectKey=KlimentC-github
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
