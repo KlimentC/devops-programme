@@ -46,13 +46,19 @@ jobs:
           options: "--check --verbose"
           src: "./app"
 
-  Python-MarkDownCheck:
-    name: markdownlint-cli
+  markdownlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: This will check the markdown
-        uses: nosborn/github-action-markdown-cli@v3.3.0
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          files: .
-          config_file: .markdownlint.json
+          node-version: "14"
+
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli
+
+      - name: Run markdownlint
+        run: markdownlint README.md -c .markdownlint.json
