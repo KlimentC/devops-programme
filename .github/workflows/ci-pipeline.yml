@@ -100,7 +100,7 @@ jobs:
         with:
           projectBaseDir: ./app
           args: >
-            -Dsonar.organization=KlimentC
-            -Dsonar.projectKey=KlimentC-github
+            -Dsonar.organization=klimentc
+            -Dsonar.projectKey=KlimentC_devops-programme
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
