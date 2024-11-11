@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pylint
+          pip install -r requirements.txt
       - name: Check the code with pylit
         run: |
           cd app && pylint $(git ls-files '*.py')
