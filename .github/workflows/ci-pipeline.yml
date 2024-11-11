@@ -34,3 +34,13 @@ jobs:
       - name: Check the code with pylit
         run: |
           cd app && pylint $(git ls-files '*.py')
+
+  Python-black:
+    name: Python Black
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python Black
+        uses: rodrigogiraoserrao/python-black-check@master
+        with:
+          path: "app/"
