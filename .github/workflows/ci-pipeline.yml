@@ -41,6 +41,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Python Black
-        uses: rodrigogiraoserrao/python-black-check@master
+        uses: psf/black@stable
         with:
           path: "app/"
