@@ -45,3 +45,14 @@ jobs:
         with:
           options: "--check --verbose"
           src: "./app"
+
+  Python-MarkDownCheck:
+    name: markdownlint-cli
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: This will check the markdown
+        uses: nosborn/github-action-markdown-cli@v3.3.0
+        with:
+          files: .
+          config_file: .markdownlint.json
