@@ -3,10 +3,10 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
     branches:
-      - practiceLecture #Trigger on push to the 'main' branch
+      - practiceLecture # Trigger on push to the 'practiceLecture' branch
   pull_request:
     branches:
-      - main #Trigger on pull requests that target the 'main' branch
+      - main # Trigger on pull requests that target the 'main' branch
 
 jobs:
   EditorConfig:
@@ -18,24 +18,24 @@ jobs:
       - uses: editorconfig-checker/action-editorconfig-checker@main
       - run: editorconfig-checker
 
-  Pylintjob:
+  PylintJob:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - uses: editorconfig-checker/action-editorconfig-checker@main
-      - name: Setup python
+      - name: Setup Python
         uses: actions/setup-python@v3
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Check the code with pylit
+      - name: Check the code with pylint
         run: |
           cd app && pylint -d C0114,C0115,C0116 $(git ls-files '*.py')
 
-  Python-black:
+  PythonBlack:
     name: Python Black
     runs-on: ubuntu-latest
     steps:
@@ -46,42 +46,40 @@ jobs:
           options: "--check --verbose"
           src: "./app"
 
-  markdownlint:
+  MarkdownLint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "16"
-
       - name: Install markdownlint-cli
         run: npm install -g markdownlint-cli
-
       - name: Run markdownlint
         run: markdownlint README.md -c .markdownlint.json
 
   UnitTestSnyk:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "This is the unitTest for the python applicaiton"
+      - name: Unit Test for the Python application
+        run: echo "This is the unit test for the Python application"
       - name: Checkout repo
         uses: actions/checkout@v4
-      - name: Setup python
+      - name: Setup Python
         uses: actions/setup-python@v3
       - name: Install dependencies
         run: |
           pip3 install -r requirements.txt
-      - name: Run the unit test
+      - name: Run the unit tests
         run: python3 -m unittest discover -s app -p "*.py"
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-  ScanTheCodeForSecret:
+  ScanForSecrets:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -104,3 +102,20 @@ jobs:
             -Dsonar.projectKey=KlimentC_devops-programme
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+
+  DockerBuildAndPush:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-docker-app:${{ github.sha }}
