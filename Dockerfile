@@ -10,7 +10,7 @@ COPY requirements.txt ./
  
 RUN apt-get update && \
     apt-get -y upgrade && \
-    apt-get install -y python3 python3-pip && \
+    apt-get install -y python3.10 python3-pip && \
     pip3 install -r requirements.txt  
 
 COPY . .
