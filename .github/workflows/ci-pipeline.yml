@@ -125,6 +125,7 @@ jobs:
           image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/my-docker-app:${{ github.sha }}
           severity: HIGH,CRITICAL
           ignore-unfixed: true
+          args: "--skip-update"
       - name: Push it
         if: success()
         uses: docker/build-push-action@v2
