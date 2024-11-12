@@ -120,7 +120,7 @@ jobs:
           push: false
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-docker-app:${{ github.sha }}
       - name: Scan with Trivy
-        uses: aquasecurity/trivy-action@master
+        uses: lazy-actions/gitrivy@v3
         with:
           image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/my-docker-app:${{ github.sha }}
           severity: HIGH,CRITICAL
