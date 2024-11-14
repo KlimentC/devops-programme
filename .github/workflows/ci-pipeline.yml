@@ -28,7 +28,7 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - uses: editorconfig-checker/action-editorconfig-checker@main
       - name: Setup Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v3.10
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -57,7 +57,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "20"
       - name: Install markdownlint-cli
         run: npm install -g markdownlint-cli
       - name: Run markdownlint
@@ -72,7 +72,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v3.10
   #      - name: Install dependencies
   #        run: |
   #          pip3 install -r requirements.txt
