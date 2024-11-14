@@ -7,14 +7,14 @@ RUN useradd -m nonrootuser && \
 WORKDIR /home/nonrootuser/app
 
 COPY requirements.txt ./
- 
+
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get install -y python3.10 python3-pip && \
-    pip3 install -r requirements.txt  
+    pip3 install -r requirements.txt
 
 COPY . .
- 
+
 USER nonrootuser
- 
+
 CMD ["python3", "app/app.py"]
