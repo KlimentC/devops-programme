@@ -8,6 +8,8 @@ repos:
     rev: v1.35.1
     hooks:
       - id: yamllint
+        args: ['--config-file', '.yamllint.yml']
+        exclude: '^vault\.yml$'
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.4.0
