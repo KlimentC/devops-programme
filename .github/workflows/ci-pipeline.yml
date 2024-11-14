@@ -1,12 +1,13 @@
+---
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on:
+"on":
   push:
     branches:
-      - practiceLecture # Trigger on push to the 'practiceLecture' branch
+      - practiceLecture
   pull_request:
     branches:
-      - main # Trigger on pull requests that target the 'main' branch
+      - main
 
 jobs:
   EditorConfig:

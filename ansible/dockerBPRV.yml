@@ -1,7 +1,7 @@
 ---
 - name: This is the Ansible Build for the Docker using the secrets from Ansible Vault
   hosts: localhost
-  gather_facts: no
+  gather_facts: false
   vars:
     image_name: "homework"
     image_tag: "ver8"

@@ -1,5 +1,5 @@
 - hosts: localhost
-  gather_facts: no
+  gather_facts: falsehgfdsuyhgfdhf
 
   vars:
     application_directory: /tmp/application
@@ -16,7 +16,7 @@
         repo: https://github.com/KlimentC/devops-programme.git
         dest: "{{ application_directory }}"
         version: main
-        force: yes
+        force: true
 
     - name: Install dependencies
       pip:

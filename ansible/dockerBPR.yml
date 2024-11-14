@@ -1,7 +1,7 @@
 ---
 - name: This is the Ansible Build for the Docker
   hosts: localhost
-  gather_facts: no
+  gather_facts: fasle
   vars:
     image_name: "homework"
     image_tag: "ver7"
