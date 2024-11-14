@@ -95,10 +95,10 @@ jobs:
   SonarCloud:
     name: This is the SonarCloud check
     runs-on: ubuntu-latest
-  #    steps:
-  #      - uses: actions/checkout@v4
-  #        with:
-  #          fetch-depth: 1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
   #      - name: SonarCloud Scan
   #        uses: sonarsource/sonarcloud-github-action@v2.1.0
   #        with:
@@ -112,10 +112,9 @@ jobs:
   DockerBuildAndPush:
     name: This is the Docker process where it builds, scans with Trivy and pushes the image
     runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 #      - name: Log in to Docker Hub
 #        uses: docker/login-action@v2
 #        with:
