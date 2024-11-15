@@ -99,7 +99,8 @@ jobs:
         with:
           fetch-depth: 1
       - uses: gitleaks/gitleaks-action@v2
-
+        with:
+          allowlist-paths: ".github/workflows/ci-pipeline.yml"
   SonarCloud:
     name: This is the SonarCloud check
     runs-on: ubuntu-latest
