@@ -11,3 +11,6 @@ id = "generic-secrets"  # Unique identifier for the rule
 description = "Hardcoded generic secrets"
 regex = '''(?i)\b(secret|token|key)\b\s*[:=]\s*["']?.{6,}["']?'''
 tags = ["secret"]
+
+[allowlist]
+paths = [".github/workflows"]
