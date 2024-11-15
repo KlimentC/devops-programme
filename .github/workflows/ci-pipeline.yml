@@ -78,16 +78,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]  # Depends on all linting jobs
     steps:
-      - name: Checkout code
+      - name: Unit Test for the Python application
+        run: echo "This is the unit test for the Python application"
+      - name: Checkout repo
         uses: actions/checkout@v4
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
       - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Run Unit Tests
-        run: python -m unittest discover -s tests
+        run: |
+          pip3 install -r requirements.txt
+      - name: Run the unit tests
+        run: python3 -m unittest discover -s app -p "*.py"
+      - name: Run Snyk to check for vulnerabilities
+        uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python-3.10@master
         env:
