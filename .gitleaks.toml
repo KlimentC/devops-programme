@@ -1,0 +1,13 @@
+title = "Custom Gitleaks Rules"
+
+[[rules]]
+id = "generic-password"  # Unique identifier for the rule
+description = "Generic password"
+regex = '''(?i)\b(password|pwd|pass|passwd)\b\s*[:=]\s*["']?.{6,}["']?'''
+tags = ["password"]
+
+[[rules]]
+id = "generic-secrets"  # Unique identifier for the rule
+description = "Hardcoded generic secrets"
+regex = '''(?i)\b(secret|token|key)\b\s*[:=]\s*["']?.{6,}["']?'''
+tags = ["secret"]
