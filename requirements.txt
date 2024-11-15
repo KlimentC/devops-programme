@@ -1,5 +1,5 @@
 
-ansible==10.3.0
+ansible==10.4.0
 ansible-compat==24.9.1
 ansible-core==2.18.0
 ansible-lint==24.9.2
