@@ -78,15 +78,15 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-  #      - name: Install dependencies
-  #        run: |
-  #          pip3 install -r requirements.txt
-  #      - name: Run the unit tests
-  #        run: python3 -m unittest discover -s app -p "*.py"
-  #      - name: Run Snyk to check for vulnerabilities
-  #        uses: snyk/actions/python@master
-  #        env:
-  #          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Install dependencies
+        run: |
+          pip3 install -r requirements.txt
+      - name: Run the unit tests
+        run: python3 -m unittest discover -s app -p "*.py"
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
   ScanForSecrets:
     name: This is the gitLeaks check for the secrets
