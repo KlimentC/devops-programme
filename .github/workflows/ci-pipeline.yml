@@ -84,7 +84,7 @@ jobs:
       - name: Run the unit tests
         run: python3 -m unittest discover -s app -p "*.py"
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@master
+        uses: snyk/actions/python@v1.2.0
         with:
           args: test --severity-threshold=critical
         env:
