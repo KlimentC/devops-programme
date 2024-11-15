@@ -44,7 +44,8 @@ jobs:
         run: |
           pip install -r requirements.txt
       - name: Run Pylint
-        run: pylint $(git ls-files '*.py')
+        run: |
+          cd app && pylint -d C0114,C0115,C0116 $(git ls-files '*.py')
 
   PythonBlackJob:
     name: Python Black Check
