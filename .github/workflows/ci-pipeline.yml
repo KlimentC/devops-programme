@@ -1,7 +1,7 @@
 ---
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-"on":
+name: GitHub Actions Workflow
+
+on:
   push:
     branches:
       - practiceLecture
@@ -10,107 +10,97 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
       - main
 
 jobs:
-  EditorConfig:
-    name: This is the Editor Config job
+  ScanForSecrets:
+    name: GitLeaks check for secrets
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - uses: actions/checkout@v4
+      - uses: gitleaks/gitleaks-action@v2
+        with:
+          allowlist-paths: |
+            .github/workflows/ci-pipeline.yml
+            ansible/dockerBPRV.yml
+
+  EditorConfig:
+    name: Editor Config Check
+    runs-on: ubuntu-latest
+    needs: ScanForSecrets  # Depends on ScanForSecrets
+    steps:
+      - uses: actions/checkout@v4
       - uses: editorconfig-checker/action-editorconfig-checker@main
       - run: editorconfig-checker
 
   PylintJob:
-    name: This is the PylintJob
+    name: Pylint Check for Python code
     runs-on: ubuntu-latest
+    needs: ScanForSecrets  # Depends on ScanForSecrets
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - uses: editorconfig-checker/action-editorconfig-checker@main
+      - uses: actions/checkout@v4
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Check the code with pylint
-        run: |
-          cd app && pylint -d C0114,C0115,C0116 $(git ls-files '*.py')
+      - name: Run Pylint
+        run: pylint $(git ls-files '*.py')
 
-  PythonBlack:
-    name: Python Black job
+  PythonBlackJob:
+    name: Python Black Check
     runs-on: ubuntu-latest
+    needs: ScanForSecrets  # Depends on ScanForSecrets
     steps:
       - uses: actions/checkout@v4
-      - name: Python Black
-        uses: psf/black@stable
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          options: "--check --verbose"
-          src: "./app"
+          python-version: "3.13"
+      - name: Install Black
+        run: pip install black
+      - name: Run Black
+        run: black --check .
 
-  MarkdownLint:
-    name: This is the Markdown Lint job
+  MarkdownLintJob:
+    name: Markdown Lint Check
     runs-on: ubuntu-latest
+    needs: ScanForSecrets  # Depends on ScanForSecrets
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Markdown Lint
+        run: npm install -g markdownlint-cli
+      - name: Run Markdown Lint
+        run: markdownlint **/*.md
+
+  UnitTestSnyk:
+    name: Unit Tests and Snyk Check
+    runs-on: ubuntu-latest
+    needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]  # Depends on all linting jobs
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
-      - name: Install markdownlint-cli
-        run: npm install -g markdownlint-cli
-      - name: Run markdownlint
-        run: markdownlint README.md -c .markdownlint.json
-
-  UnitTestSnyk:
-    name: This is the Unit testing and snyk job
-    runs-on: ubuntu-latest
-    steps:
-      - name: Unit Test for the Python application
-        run: echo "This is the unit test for the Python application"
-      - name: Checkout repo
-        uses: actions/checkout@v4
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
       - name: Install dependencies
-        run: |
-          pip3 install -r requirements.txt
-      - name: Run the unit tests
-        run: python3 -m unittest discover -s app -p "*.py"
-      - name: Run Snyk to check for vulnerabilities
-        uses: actions/checkout@master
+        run: pip install -r requirements.txt
+      - name: Run Unit Tests
+        run: python -m unittest discover -s tests
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python-3.10@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=critical
-  ScanForSecrets:
-    name: This is the gitLeaks check for the secrets
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-      - uses: gitleaks/gitleaks-action@v2
-        with:
-          allowlist-paths: | 
-            ".github/workflows/ci-pipeline.yml"
-            "ansible/dockerBPRV.yml"
+
   SonarCloud:
-    name: This is the SonarCloud check
+    name: SonarCloud Scan
     runs-on: ubuntu-latest
+    needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]  # Depends on all linting jobs
     steps:
-      - name: Checkout the repository
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.1.0
         with:
@@ -121,10 +111,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
 
-
   DockerBuildAndPush:
-    name: This is the Docker process where it builds, scans with Trivy and pushes the image
+    name: Docker Build, Scan with Trivy, and Push
     runs-on: ubuntu-latest
+    needs: [UnitTestSnyk, SonarCloud]  # Depends on Unit Tests, Snyk, and SonarCloud
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -133,24 +123,21 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       - name: Build Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: false
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-docker-app:${{ github.sha }}
-
-#     - name: Scan with Trivy
-#       uses: aquasecurity/trivy-action@0.28.0
-#       with:
-#         image-ref: "${{ secrets.DOCKERHUB_USERNAME }}/my-docker-app:${{ github.sha }}"
-#          format: "table"
-#          exit-code: "1"
-#          ignore-unfixed: true
-#          vuln-type: "os,library"
-#          severity: "CRITICAL,HIGH"
-
+      - name: Scan with Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: "${{ secrets.DOCKERHUB_USERNAME }}/my-docker-app:${{ github.sha }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL"
       - name: Push Docker image
         if: success()
         run: |

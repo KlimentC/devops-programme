@@ -19,7 +19,7 @@
     - name: Log in to Docker Hub
       community.docker.docker_login:
         username: "{{ vault_credentials.docker_hub_username }}"
-        passwordd: "{{ vault_credentials.docker_hub_password }}"
+        p#passwordd: "{{ vault_credentials.docker_hub_password }}"
         registry: docker.io
 
     - name: Installing the dependencies from requirements.txt
