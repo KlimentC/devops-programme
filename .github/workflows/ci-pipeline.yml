@@ -95,12 +95,12 @@ jobs:
       - name: Generate coverage report
         run: coverage xml -o coverage.xml
 
-#      - name: Run Snyk to check for vulnerabilities
-#        uses: snyk/actions/python-3.10@master
-#        env:
-#          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#        with:
-#          args: --severity-threshold=critical
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python-3.10@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=critical
   
   SonarCloud:
     name: SonarCloud Scan
