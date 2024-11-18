@@ -109,6 +109,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: List files in ./app directory
+        run: ls -R ./app
+
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.1.0
         with:
@@ -119,6 +123,7 @@ jobs:
             -Dsonar.python.coverage.reportPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+
   
   DockerBuildAndPush:
     name: Docker Build, Scan with Trivy, and Push
