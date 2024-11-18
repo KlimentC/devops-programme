@@ -108,7 +108,6 @@ jobs:
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.1.0
         with:
-          projectBaseDir: ./app  
           args: >
             -Dsonar.organization=klimentc
             -Dsonar.projectKey=KlimentC_devops-programme
