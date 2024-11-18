@@ -24,7 +24,7 @@ jobs:
   EditorConfig:
     name: Editor Config Check
     runs-on: ubuntu-latest
-    needs: ScanForSecrets  # Depends on ScanForSecrets
+    needs: ScanForSecrets
     steps:
       - uses: actions/checkout@v4
       - uses: editorconfig-checker/action-editorconfig-checker@main
@@ -33,7 +33,7 @@ jobs:
   PylintJob:
     name: Pylint Check for Python code
     runs-on: ubuntu-latest
-    needs: ScanForSecrets  # Depends on ScanForSecrets
+    needs: ScanForSecrets 
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
@@ -50,7 +50,7 @@ jobs:
   PythonBlackJob:
     name: Python Black Check
     runs-on: ubuntu-latest
-    needs: ScanForSecrets  # Depends on ScanForSecrets
+    needs: ScanForSecrets
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
@@ -65,7 +65,7 @@ jobs:
   MarkdownLintJob:
     name: Markdown Lint Check
     runs-on: ubuntu-latest
-    needs: ScanForSecrets  # Depends on ScanForSecrets
+    needs: ScanForSecrets
     steps:
       - uses: actions/checkout@v4
       - name: Install Markdown Lint
@@ -76,7 +76,7 @@ jobs:
   UnitTestSnyk:
     name: Unit Tests and Snyk Check
     runs-on: ubuntu-latest
-    needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]  # Depends on all linting jobs
+    needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]
     steps:
       - name: Unit Test for the Python application
         run: echo "This is the unit test for the Python application"
@@ -103,7 +103,7 @@ jobs:
   SonarCloud:
     name: SonarCloud Scan
     runs-on: ubuntu-latest
-    needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]  # Depends on all linting jobs
+    needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -120,7 +120,7 @@ jobs:
   DockerBuildAndPush:
     name: Docker Build, Scan with Trivy, and Push
     runs-on: ubuntu-latest
-    needs: [UnitTestSnyk, SonarCloud]  # Depends on Unit Tests, Snyk, and SonarCloud
+    needs: [UnitTestSnyk, SonarCloud]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
