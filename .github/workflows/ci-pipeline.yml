@@ -8,7 +8,7 @@ on:
   pull_request:
     branches:
       - main
-
+  
 jobs:
   ScanForSecrets:
     name: GitLeaks check for secrets
@@ -20,7 +20,7 @@ jobs:
           allowlist-paths: |
             .github/workflows/ci-pipeline.yml
             ansible/dockerBPRV.yml
-
+  
   EditorConfig:
     name: Editor Config Check
     runs-on: ubuntu-latest
@@ -29,11 +29,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: editorconfig-checker/action-editorconfig-checker@main
       - run: editorconfig-checker
-
+  
   PylintJob:
     name: Pylint Check for Python code
     runs-on: ubuntu-latest
-    needs: ScanForSecrets 
+    needs: ScanForSecrets
     steps:
       - uses: actions/checkout@v4
       - name: Setup Python
@@ -46,7 +46,7 @@ jobs:
       - name: Run Pylint
         run: |
           cd app && pylint -d C0114,C0115,C0116 $(git ls-files '*.py')
-
+  
   PythonBlackJob:
     name: Python Black Check
     runs-on: ubuntu-latest
@@ -61,7 +61,7 @@ jobs:
         run: pip install black
       - name: Run Black
         run: black --check .
-
+  
   MarkdownLintJob:
     name: Markdown Lint Check
     runs-on: ubuntu-latest
@@ -72,34 +72,36 @@ jobs:
         run: npm install -g markdownlint-cli
       - name: Run Markdown Lint
         run: markdownlint **/*.md
-
+  
   UnitTestSnyk:
     name: Unit Tests and Snyk Check
     runs-on: ubuntu-latest
     needs: [EditorConfig, PylintJob, PythonBlackJob, MarkdownLintJob]
     steps:
-      - name: Unit Test for the Python application
-        run: echo "This is the unit test for the Python application"
       - name: Checkout repo
         uses: actions/checkout@v4
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+
       - name: Install dependencies
-        run: |
-          pip3 install -r requirements.txt
-      - name: Run the unit tests
-        run: python3 -m unittest discover -s app -p "*.py"
-      - name: Run Snyk to check for vulnerabilities
-        uses: actions/checkout@master
+        run: pip install -r requirements.txt coverage
+
+      - name: Run tests with coverage
+        run: coverage run -m unittest discover -s app -p "*.py"
+
+      - name: Generate coverage report
+        run: coverage xml -o coverage.xml
+
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python-3.10@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=critical
-
+  
   SonarCloud:
     name: SonarCloud Scan
     runs-on: ubuntu-latest
@@ -117,7 +119,7 @@ jobs:
             -Dsonar.python.coverage.reportPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-
+  
   DockerBuildAndPush:
     name: Docker Build, Scan with Trivy, and Push
     runs-on: ubuntu-latest
@@ -149,3 +151,4 @@ jobs:
         if: success()
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-docker-app:${{ github.sha }}
+  
