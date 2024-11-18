@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 1  # Ensures only the latest commit is fetched
 
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
@@ -26,6 +26,16 @@ jobs:
           allowlist-paths: |
             .github/workflows/ci-pipeline.yml
             ansible/dockerBPRV.yml
+          args: |
+            --redact
+            --exit-code=2
+            --report-format=sarif
+            --report-path=results.sarif
+            --log-level=debug
+            --log-opts=--no-merges
+            --first-parent
+            ${GITHUB_SHA}^..${GITHUB_SHA}
+
 
   
   EditorConfig:
