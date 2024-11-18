@@ -102,7 +102,7 @@ jobs:
 #          args: --severity-threshold=critical
 
       - name: List files in ./app directory
-        run: ls -R ./app  
+        run: pwd 
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.1.0
