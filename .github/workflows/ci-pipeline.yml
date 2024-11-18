@@ -110,7 +110,7 @@ jobs:
           args: >
             -Dsonar.organization=klimentc
             -Dsonar.projectKey=KlimentC_devops-programme
-            -Dsonar.python.coverage.reportPaths=./app/coverage.xml  # Ensure the coverage report path is correct
+            -Dsonar.python.coverage.reportPaths=./app/coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
 
