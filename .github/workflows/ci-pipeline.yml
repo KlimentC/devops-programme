@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1  # Ensures only the latest commit is fetched
+          fetch-depth: 0  # Fetches full history to allow scanning across all commits
 
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
@@ -34,7 +34,7 @@ jobs:
             --log-level=debug
             --log-opts=--no-merges
             --first-parent
-            ${GITHUB_SHA}^..${GITHUB_SHA}
+            ${GITHUB_BASE_REF}..${GITHUB_SHA}
 
 
   
