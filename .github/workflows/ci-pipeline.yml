@@ -113,7 +113,6 @@ jobs:
             -Dsonar.organization=klimentc
             -Dsonar.projectKey=KlimentC_devops-programme
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.sources=app
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
   
