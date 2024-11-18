@@ -91,7 +91,8 @@ jobs:
 
       - name: Run tests with coverage and generate report
         run: |
-          coverage run -m unittest discover -s app -p "*.py" && coverage xml -o ./app/coverage.xml
+          coverage run -m unittest discover -s app -p "*.py"
+          coverage xml -o ./app/coverage.xml
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python-3.10@master
@@ -113,8 +114,6 @@ jobs:
             -Dsonar.python.coverage.reportPaths=./app/coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-
-
   
  # SonarCloud:
 #    name: SonarCloud Scan
