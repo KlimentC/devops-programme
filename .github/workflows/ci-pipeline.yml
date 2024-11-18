@@ -101,12 +101,12 @@ jobs:
           args: --severity-threshold=critical
 
       - name: List files in ./app directory
-        run: ls -R ./app  # This lists all files in ./app and subdirectories
+        run: ls -R ./app  
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.1.0
         with:
-          projectBaseDir: ./app  # Ensure SonarCloud scans the correct directory
+          projectBaseDir: ./app  
           args: >
             -Dsonar.organization=klimentc
             -Dsonar.projectKey=KlimentC_devops-programme
