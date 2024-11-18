@@ -93,6 +93,7 @@ jobs:
         run: |
           coverage run -m unittest discover -s app -p "*.py"
           coverage xml -o ./app/coverage.xml
+          coverage xml -o coverage.xml
 
 #      - name: Run Snyk to check for vulnerabilities
 #        uses: snyk/actions/python-3.10@master
@@ -111,7 +112,7 @@ jobs:
           args: >
             -Dsonar.organization=klimentc
             -Dsonar.projectKey=KlimentC_devops-programme
-            -Dsonar.python.coverage.reportPaths=./app/coverage.xml
+            -Dsonar.python.coverage.reportPaths=app/coverage.xml
             -Dsonar.sources=./app
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
