@@ -1,5 +1,5 @@
 ---
-name: GitHub Actions Workflow
+name: GitHub Actions Workflow  Kliment Ch.
 
 on:
   push:
