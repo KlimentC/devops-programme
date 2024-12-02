@@ -107,7 +107,7 @@ jobs:
         uses: snyk/actions/python@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          with:
+        with:
           args: >
             --severity-threshold=critical
             --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092
