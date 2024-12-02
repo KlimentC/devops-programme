@@ -103,6 +103,13 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          with:
+          args: --severity-threshold=critical
+
       - name: Install dependencies
         run: pip install -r requirements.txt coverage
 
@@ -125,6 +132,7 @@ jobs:
             -Dsonar.python.coverage.reportPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
+
       
   
  
