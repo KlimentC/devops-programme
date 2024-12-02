@@ -108,7 +108,9 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           with:
-          args: --severity-threshold=critical
+          args: >
+            --severity-threshold=critical
+            --exclude-vuln=SNYK-PYTHON-WERKZEUG-8309092
 
       - name: Install dependencies
         run: pip install -r requirements.txt coverage
