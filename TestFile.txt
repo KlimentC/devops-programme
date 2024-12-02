@@ -1,4 +1,0 @@
-### This file is just for testing purposes
-### Add and remove things after this line
-
-Adding line to trigger the gitHub action on txt file

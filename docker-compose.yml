@@ -1,0 +1,15 @@
+---
+version: "3.9"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my_python_app
+    ports:
+      - "8000:3000"
+    volumes:
+      - .:/home/nonrootuser/app
+    environment:
+      - ENV=production
+    restart: always

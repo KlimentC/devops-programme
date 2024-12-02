@@ -1,7 +1,7 @@
 ---
 - name: This is the Ansible Build for the Docker using the secrets from Ansible Vault
   hosts: localhost
-  gather_facts: no
+  gather_facts: false
   vars:
     image_name: "homework"
     image_tag: "ver8"
@@ -19,7 +19,7 @@
     - name: Log in to Docker Hub
       community.docker.docker_login:
         username: "{{ vault_credentials.docker_hub_username }}"
-        password: "{{ vault_credentials.docker_hub_password }}"
+        p#passwordd: "{{ vault_credentials.docker_hub_password }}"
         registry: docker.io
 
     - name: Installing the dependencies from requirements.txt

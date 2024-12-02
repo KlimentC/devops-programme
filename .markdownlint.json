@@ -1,0 +1,11 @@
+{
+  "default": false,
+  "overrides": [
+    {
+      "files": ["README.md"],
+      "default": true,
+      "MD013": false,
+      "MD041": true
+    }
+  ]
+}
