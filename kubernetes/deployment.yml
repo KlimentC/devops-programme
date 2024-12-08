@@ -31,7 +31,8 @@ spec:
   selector:
     app: decemberhomework
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 8085
       targetPort: 3000
       nodePort: 30805
