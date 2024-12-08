@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decemberhomework-deployment
+  labels:
+    app: decemberhomework
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: decemberhomework
+  template:
+    metadata:
+      labels:
+        app: decemberhomework
+    spec:
+      containers:
+        - name: decemberhomework
+          image: klimentchakarovski/decemberhomework:v1
+          ports:
+            - containerPort: 3000
