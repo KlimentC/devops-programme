@@ -1,0 +1,10 @@
+{
+  "ignore": {
+    "SNYK-PYTHON-WERKZEUG-8309092": [
+      {
+        "reason": "This vulnerability is considered non-critical for the current project.",
+        "expires": "2025-01-01T00:00:00Z"
+      }
+    ]
+  }
+}
